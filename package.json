@@ -11,6 +11,7 @@
     "dev:ssr": "ng run my-app:serve-ssr",
     "serve:ssr": "node dist/my-app/server/main.js",
     "build:ssr": "ng build && ng run my-app:server",
+    "build:ssr:aws": "ng build --configuration serverless && ng run my-app:server",
     "prerender": "ng run my-app:prerender"
   },
   "private": true,
