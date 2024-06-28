@@ -12,7 +12,9 @@
     "serve:ssr": "node dist/my-app/server/main.js",
     "build:ssr": "ng build && ng run my-app:server",
     "build:ssr:aws": "ng build --configuration serverless && ng run my-app:server",
-    "prerender": "ng run my-app:prerender"
+    "prerender": "ng run my-app:prerender",
+    "dev:sls": "ng build --configuration development && ng run my-app:serverless  && npm run serve:sls",
+    "serve:sls": "serverless offline start --noPrependStageInUrl"
   },
   "private": true,
   "dependencies": {
@@ -25,6 +27,7 @@
     "@angular/platform-browser-dynamic": "^14.2.0",
     "@angular/platform-server": "^14.2.0",
     "@angular/router": "^14.2.0",
+    "@codegenie/serverless-express": "^4.14.1",
     "@nguniversal/express-engine": "^14.2.3",
     "aws-serverless-express": "^3.4.0",
     "express": "^4.15.2",
