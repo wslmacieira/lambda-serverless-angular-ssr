@@ -18,7 +18,8 @@ package:
 
 functions:
   api:
-    handler: lambda-edge/lambda.handler
+    # handler: lambda-edge/lambda.handler
+    handler: lambda.handler
     events:
       - http: ANY /
       - http: ANY /{proxy+}

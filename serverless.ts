@@ -32,9 +32,9 @@ const bufferToJSONMiddleware = (req: express.Request, _res: express.Response, ne
 };
 server.post('/api/**', bufferToJSONMiddleware, (req, res) => {
     // server.use(express.json())
-    console.log({
-        payload: req.body
-    })
+    // console.log({
+    //     payload: req.body
+    // })
     res.send({
         message: "hello world!",
         payload: req.body
