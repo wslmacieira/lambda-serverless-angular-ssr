@@ -17,20 +17,22 @@ server.set('view engine', 'html');
 server.set('views', distFolder);
 // Example Express Rest API endpoints
 // server.get('/api/**', (req, res) => { });
-
+// server.use(express.json())
 // Middlewares
 const bufferToJSONMiddleware = (req: express.Request, _res: express.Response, next: express.NextFunction) => {
     if (req.body instanceof Buffer) {
+        req.body = req.body.toString();
         try {
             req.body = JSON.parse(req.body.toString());
         } catch (err) {
-            next(err)
+            // next(err)
             // return res.status(400).json({ error: 'Invalid JSON data' });
         }
     }
     next();
 };
 server.post('/api/**', bufferToJSONMiddleware, (req, res) => {
+    console.log("POST", req.body)
     // server.use(express.json())
     // console.log({
     //     payload: req.body
@@ -48,6 +50,7 @@ server.get('*.*', express.static(distFolder, {
 
 // All regular routes use the Universal engine
 server.get('*', (req, res) => {
+    console.log("GET", req.body)
     res.render(indexHtml, { req, providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }] });
 });
 
