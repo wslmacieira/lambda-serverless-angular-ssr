@@ -1,4 +1,19 @@
 const serverlessExpress = require('@codegenie/serverless-express')
-const app = require("./dist/my-app/serverless/main");
+const { server } = require("./dist/my-app/serverless/main");
 
-exports.handler = serverlessExpress({ app: app.server })
+let serverlessExpressInstance;
+
+async function setup() {
+    const app = await server();
+    serverlessExpressInstance = serverlessExpress({ app });
+}
+
+export async function handler(event, context) {
+    console.log(JSON.stringify({ event }));
+
+    if (!serverlessExpressInstance) {
+        await setup();
+    }
+
+    return serverlessExpressInstance(event, context);
+}

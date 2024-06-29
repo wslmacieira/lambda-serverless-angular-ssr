@@ -17,16 +17,38 @@ server.set('view engine', 'html');
 server.set('views', distFolder);
 // Example Express Rest API endpoints
 // server.get('/api/**', (req, res) => { });
-server.use(express.json())
-server.post('/api/**', (req, res) => {
-    res.send({ message: "hello world!" })
+
+// Middlewares
+const bufferToJSONMiddleware = (req: express.Request, _res: express.Response, next: express.NextFunction) => {
+    if (req.body instanceof Buffer) {
+        try {
+            req.body = JSON.parse(req.body.toString());
+        } catch (err) {
+            next(err)
+            // return res.status(400).json({ error: 'Invalid JSON data' });
+        }
+    }
+    next();
+};
+server.post('/api/**', bufferToJSONMiddleware, (req, res) => {
+    // server.use(express.json())
+    console.log({
+        payload: req.body
+    })
+    res.send({
+        message: "hello world!",
+        payload: req.body
+    })
 });
+
 // Serve static files from /browser
 server.get('*.*', express.static(distFolder, {
     maxAge: '1y'
 }));
+
 // All regular routes use the Universal engine
-server.all('*', (req, res) => {
+server.get('*', (req, res) => {
     res.render(indexHtml, { req, providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }] });
 });
+
 export * from './src/main.server';
